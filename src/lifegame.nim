@@ -1,3 +1,32 @@
+## This module provides functions for Lifegame.
+##
+## Basic usage
+## ===========
+##
+## Blinker example is here.
+##
+## .. code-block:: nim
+## 
+##    import lifegame
+##    from os import sleep
+## 
+##    var board: Board = @[
+##      @[dead, dead, dead, dead, dead],
+##      @[dead, dead, dead, dead, dead],
+##      @[dead, live, live, live, dead],
+##      @[dead, dead, dead, dead, dead],
+##      @[dead, dead, dead, dead, dead],
+##    ]
+## 
+##    while true:
+##      board.nextStep()
+##      board.print
+##      echo "-----------------------------------"
+##      sleep(100)
+##
+## See also:
+## * `Conway's Game of Life <https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life>`_
+
 from sequtils import filterIt
 
 type
@@ -6,7 +35,15 @@ type
   Board* = seq[seq[CellStatus]]
 
 proc getNeighbourCells*(board: Board, x, y: int): seq[CellStatus] =
-  ## 隣接するセルの取得
+  ## Returns neighbour cells. Not included x, y cell.
+  runnableExamples:
+    let board = @[
+      @[live, dead, live, live],
+      @[dead, live, live, live],
+      @[live, live, live, dead],
+      @[live, live, live, dead],
+    ]
+    doAssert board.getNeighbourCells(x = 0, y = 0) == @[dead, dead, live]
   for y2 in y-1..y+1:
     if y2 < 0 or board.len <= y2:
       continue
@@ -18,13 +55,22 @@ proc getNeighbourCells*(board: Board, x, y: int): seq[CellStatus] =
       result.add board[y2][x2]
 
 proc isReproduction*(self: CellStatus, livingCellCount: int): bool =
-  ## 誕生
+  ## Returns cell is reproduction.
+  ## Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+  runnableExamples:
+    doAssert dead.isReproduction(2) == false
+    doAssert dead.isReproduction(3)
   if self != CellStatus.dead:
     return false
   result = livingCellCount == 3
 
 proc isGeneration*(self: CellStatus, livingCellCount: int): bool =
-  ## 生存
+  ## Returns cell is generation.
+  ## Any live cell with two or three live neighbours lives on to the next generation.
+  runnableExamples:
+    doAssert live.isGeneration(1) == false
+    doAssert live.isGeneration(2)
+    doAssert live.isGeneration(3)
   if self != CellStatus.live:
     return false
   result = case livingCellCount
@@ -32,19 +78,45 @@ proc isGeneration*(self: CellStatus, livingCellCount: int): bool =
            else: false
 
 proc isUnderpopulation*(self: CellStatus, livingCellCount: int): bool =
-  ## 過疎
+  ## Returns cell is underpopulation.
+  ## Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+  runnableExamples:
+    doAssert live.isUnderpopulation(0)
+    doAssert live.isUnderpopulation(1)
+    doAssert live.isUnderpopulation(2) == false
   if self != CellStatus.live:
     return false
   result = livingCellCount <= 1
 
 proc isOverpopulation*(self: CellStatus, livingCellCount: int): bool =
-  ## 過密
+  ## Returns cell is overpopulation.
+  ## Any live cell with more than three live neighbours dies, as if by overpopulation.
+  runnableExamples:
+    doAssert live.isOverpopulation(3) == false
+    doAssert live.isOverpopulation(4)
+    doAssert live.isOverpopulation(5)
   if self != CellStatus.live:
     return false
   result = 4 <= livingCellCount
 
 proc nextStep*(board: var Board) =
-  # 全部のセルに対してチェックし、新しいboardとする
+  ## Check all cells and update `board`.
+  runnableExamples:
+    var board: Board = @[
+      @[dead, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, dead],
+      @[dead, live, live, live, dead],
+      @[dead, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, dead],
+    ]
+    board.nextStep
+    doAssert board == @[
+      @[dead, dead, dead, dead, dead],
+      @[dead, dead, live, dead, dead],
+      @[dead, dead, live, dead, dead],
+      @[dead, dead, live, dead, dead],
+      @[dead, dead, dead, dead, dead],
+    ]
   var newBoard: Board = @[]
   for y, row in board:
     var newRow: seq[CellStatus]
@@ -70,6 +142,22 @@ proc nextStep*(board: var Board) =
   board = newBoard
 
 proc print*(board: Board) =
+  ## Print board to stdout.
+  runnableExamples:
+    var board: Board = @[
+      @[dead, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, dead],
+      @[dead, live, live, live, dead],
+      @[dead, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, dead],
+    ]
+    board.print
+    ## Output:
+    ## |D|D|D|D|D|
+    ## |D|D|D|D|D|
+    ## |D|L|L|L|D|
+    ## |D|D|D|D|D|
+    ## |D|D|D|D|D|
   for row in board:
     var s = "|"
     for cell in row:
