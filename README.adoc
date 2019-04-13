@@ -62,4 +62,4 @@ while true:
 [source,bash]
 nim c -r examples/glider_gun.nim
 
-image:doc/glider.gif["Glider animation"]
+image:docs/glider.gif["Glider animation"]
