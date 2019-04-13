@@ -1,2 +1,4 @@
 /bin/
 tests/test1
+examples/blinker
+examples/glider_gun
