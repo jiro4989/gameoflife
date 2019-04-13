@@ -6,12 +6,12 @@ description   = "A new awesome nimble package"
 license       = "MIT"
 srcDir        = "src"
 binDir        = "bin"
-bin           = @["lifegame"]
+bin           = @["gameoflife"]
 
 # Dependencies
 
 requires "nim >= 0.19.4"
 
 task docs, "Generate document":
-  exec "nimble doc src/lifegame.nim -o:doc/html/lifegame.html"
+  exec "nimble doc src/gameoflife.nim -o:doc/html/gameoflife.html"
 

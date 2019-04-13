@@ -1,4 +1,4 @@
-import lifegame
+import gameoflife
 from os import sleep
 
 var board: Board = @[

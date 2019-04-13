@@ -1,5 +1,5 @@
 import unittest
-import lifegame
+import gameoflife
 
 suite "getNeighbourCells":
   let board = @[
