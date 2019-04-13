@@ -28,6 +28,8 @@ nimble install gameoflife
 
 == Usage
 
+=== Blinker example
+
 [source,nim]
 ----
 import gameoflife
@@ -47,3 +49,10 @@ while true:
   echo "-----------------------------------"
   sleep(100)
 ----
+
+=== Glider example
+
+[source,bash]
+nim c -r examples/glider_gun.nim
+
+image:doc/glider.gif["Glider animation"]
