@@ -15,3 +15,8 @@ requires "nim >= 0.19.4"
 task docs, "Generate document":
   exec "nimble doc src/gameoflife.nim -o:doc/html/gameoflife.html"
 
+task ghpages, "Update gh-pages":
+  exec "git checkout gh-pages"
+  exec "git merge master"
+  exec "git push"
+  exec "git checkout master"
