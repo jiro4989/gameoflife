@@ -9,8 +9,6 @@ pure Nim.
 
 image:https://travis-ci.org/jiro4989/gameoflife.svg?branch=master["Build Status", link="https://travis-ci.org/jiro4989/gameoflife"]
 
-https://jiro4989.github.io/gameoflife/doc/html/gameoflife.html[Document]
-
 == Development
 
 nim -v
@@ -63,3 +61,7 @@ while true:
 nim c -r examples/glider_gun.nim
 
 image:docs/glider.gif["Glider animation"]
+
+== Documents
+
+* https://jiro4989.github.io/gameoflife/gameoflife.html
