@@ -136,6 +136,57 @@ suite "nextStep":
       @[dead, dead, live, dead, dead],
       @[dead, dead, dead, dead, dead],
     ]
-  test "振動子 ヒキガエル": discard
-  test "振動子 ビーコン": discard
-  test "振動子 時計": discard
+  test "振動子 ヒキガエル":
+    var board: Board = @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, dead, live, live, dead, dead],
+      @[dead, live, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, live, dead],
+      @[dead, dead, live, live, dead, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
+    board.nextStep
+    check board == @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, dead, live, dead, dead, dead],
+      @[dead, dead, live, live, dead, dead],
+      @[dead, dead, live, live, dead, dead],
+      @[dead, dead, dead, live, dead, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
+  test "振動子 ビーコン":
+    var board: Board = @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, live, live, dead, dead, dead],
+      @[dead, live, dead, dead, dead, dead],
+      @[dead, dead, dead, dead, live, dead],
+      @[dead, dead, dead, live, live, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
+    board.nextStep
+    check board == @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, live, live, dead, dead, dead],
+      @[dead, live, live, dead, dead, dead],
+      @[dead, dead, dead, live, live, dead],
+      @[dead, dead, dead, live, live, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
+  test "振動子 時計":
+    var board: Board = @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, dead, live, dead, dead, dead],
+      @[dead, dead, live, dead, live, dead],
+      @[dead, live, dead, live, dead, dead],
+      @[dead, dead, dead, live, dead, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
+    board.nextStep
+    check board == @[
+      @[dead, dead, dead, dead, dead, dead],
+      @[dead, dead, dead, live, dead, dead],
+      @[dead, live, live, dead, dead, dead],
+      @[dead, dead, dead, live, live, dead],
+      @[dead, dead, live, dead, dead, dead],
+      @[dead, dead, dead, dead, dead, dead],
+    ]
