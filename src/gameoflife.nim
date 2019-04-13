@@ -1,4 +1,4 @@
-## This module provides functions for Lifegame.
+## This module provides functions for Game of Life.
 ##
 ## Basic usage
 ## ===========
