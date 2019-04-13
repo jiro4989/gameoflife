@@ -4,6 +4,10 @@ gameoflife is
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life[Game_of_Life] library in
 pure Nim.
 
+image:https://travis-ci.org/jiro4989/gameoflife.svg?branch=master["Build Status", link="https://travis-ci.org/jiro4989/gameoflife"]
+
+https://jiro4989.github.io/gameoflife/doc/html/gameoflife.html[Document]
+
 == Development
 
 nim -v
