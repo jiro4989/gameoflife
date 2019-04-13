@@ -1,32 +1,49 @@
-= lifegame
+= gameoflife
 
-[quote,https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0]
-____
-誕生
-    死んでいるセルに隣接する生きたセルがちょうど3つあれば、次の世代が誕生する。
-生存
-    生きているセルに隣接する生きたセルが2つか3つならば、次の世代でも生存する。
-過疎
-    生きているセルに隣接する生きたセルが1つ以下ならば、過疎により死滅する。
-過密
-    生きているセルに隣接する生きたセルが4つ以上ならば、過密により死滅する。
-下に中央のセルにおける次のステップでの生死の例を示す。生きているセルはx、死んでいるセルはoで表す。
-____
+gameoflife is
+https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life[Game_of_Life] library in
+pure Nim.
 
- 誕生
-   xxo
-   xoo
-   ooo
- 生存
-   oooo
-   oxxo
-   oxxo
-   oooo
- 過疎
-   ooo
-   oxx
-   ooo
- 過密
-   xxx
-   xxo
-   ooo
+== Development
+
+nim -v
+
+  Nim Compiler Version 0.19.4 [Linux: amd64]
+  Compiled at 2019-02-01
+  Copyright (c) 2006-2018 by Andreas Rumpf
+
+  git hash: b6d96cafc8bcad1f3d32f2910b25cd11a93f7751
+  active boot switches: -d:release
+
+
+nimble -v
+
+  nimble v0.9.0 compiled at 2018-10-27 18:10:03
+  git hash: couldn't determine git hash
+
+== Install
+
+[source,bash]
+nimble install gameoflife
+
+== Usage
+
+[source,nim]
+----
+import gameoflife
+from os import sleep
+
+var board: Board = @[
+  @[dead, dead, dead, dead, dead],
+  @[dead, dead, dead, dead, dead],
+  @[dead, live, live, live, dead],
+  @[dead, dead, dead, dead, dead],
+  @[dead, dead, dead, dead, dead],
+]
+
+while true:
+  board.nextStep()
+  board.print
+  echo "-----------------------------------"
+  sleep(100)
+----
