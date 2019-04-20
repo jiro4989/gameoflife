@@ -58,7 +58,7 @@ while true:
 === Glider example
 
 [source,bash]
-nim c -r examples/glider_gun.nim
+nim c -r examples/readfile.nim examples/data/glider_gun.txt
 
 image:docs/glider.gif["Glider animation"]
 
