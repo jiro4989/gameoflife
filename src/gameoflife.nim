@@ -30,11 +30,13 @@
 from sequtils import filterIt
 
 type
-  CellStatus* = enum
-    live, dead
-  Board* = seq[seq[CellStatus]]
+  Board* = seq[seq[uint8]]
 
-proc getNeighbourCells*(board: Board, x, y: int): seq[CellStatus] =
+const
+  dead* = 0'u8
+  live* = 1'u8
+
+proc getNeighbourCells*(board: Board, x, y: int): seq[uint8] =
   ## Returns neighbour cells. Not included x, y cell.
   runnableExamples:
     let board = @[
@@ -54,48 +56,48 @@ proc getNeighbourCells*(board: Board, x, y: int): seq[CellStatus] =
         continue
       result.add board[y2][x2]
 
-proc isReproduction*(self: CellStatus, livingCellCount: int): bool =
+proc isReproduction*(self: uint8, livingCellCount: int): bool =
   ## Returns cell is reproduction.
   ## Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
   runnableExamples:
     doAssert dead.isReproduction(2) == false
     doAssert dead.isReproduction(3)
-  if self != CellStatus.dead:
+  if self != dead:
     return false
   result = livingCellCount == 3
 
-proc isGeneration*(self: CellStatus, livingCellCount: int): bool =
+proc isGeneration*(self: uint8, livingCellCount: int): bool =
   ## Returns cell is generation.
   ## Any live cell with two or three live neighbours lives on to the next generation.
   runnableExamples:
     doAssert live.isGeneration(1) == false
     doAssert live.isGeneration(2)
     doAssert live.isGeneration(3)
-  if self != CellStatus.live:
+  if self != live:
     return false
   result = case livingCellCount
            of 2, 3: true
            else: false
 
-proc isUnderpopulation*(self: CellStatus, livingCellCount: int): bool =
+proc isUnderpopulation*(self: uint8, livingCellCount: int): bool =
   ## Returns cell is underpopulation.
   ## Any live cell with fewer than two live neighbours dies, as if by underpopulation.
   runnableExamples:
     doAssert live.isUnderpopulation(0)
     doAssert live.isUnderpopulation(1)
     doAssert live.isUnderpopulation(2) == false
-  if self != CellStatus.live:
+  if self != live:
     return false
   result = livingCellCount <= 1
 
-proc isOverpopulation*(self: CellStatus, livingCellCount: int): bool =
+proc isOverpopulation*(self: uint8, livingCellCount: int): bool =
   ## Returns cell is overpopulation.
   ## Any live cell with more than three live neighbours dies, as if by overpopulation.
   runnableExamples:
     doAssert live.isOverpopulation(3) == false
     doAssert live.isOverpopulation(4)
     doAssert live.isOverpopulation(5)
-  if self != CellStatus.live:
+  if self != live:
     return false
   result = 4 <= livingCellCount
 
@@ -119,7 +121,7 @@ proc nextStep*(board: var Board) =
     ]
   var newBoard: Board = @[]
   for y, row in board:
-    var newRow: seq[CellStatus]
+    var newRow: seq[uint8]
     for x, cell in row:
       let c = board.getNeighbourCells(x=x, y=y).filterIt(it == live).len
       if cell == dead:
@@ -153,16 +155,13 @@ proc print*(board: Board) =
     ]
     board.print
     ## Output:
-    ## |D|D|D|D|D|
-    ## |D|D|D|D|D|
-    ## |D|L|L|L|D|
-    ## |D|D|D|D|D|
-    ## |D|D|D|D|D|
+    ## |0|0|0|0|0|
+    ## |0|0|0|0|0|
+    ## |0|1|1|1|0|
+    ## |0|0|0|0|0|
+    ## |0|0|0|0|0|
   for row in board:
     var s = "|"
-    for cell in row:
-      let c = case cell
-              of live: "L"
-              else: "D"
-      s.add c & "|"
+    for c in row:
+      s.add $c & "|"
     echo s
