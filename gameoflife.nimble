@@ -14,3 +14,9 @@ requires "nim >= 0.19.4"
 
 task docs, "Generate document":
   exec "nimble doc src/gameoflife.nim -o:docs/gameoflife.html"
+
+task examples, "Build examples (not execute)":
+  for d in ["blinker", "glider", "read_file"]:
+    withDir "examples/" & d:
+      exec "nim c main.nim"
+      exec "echo ---------"
