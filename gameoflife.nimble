@@ -20,3 +20,8 @@ task examples, "Build examples (not execute)":
     withDir "examples/" & d:
       exec "nim c main.nim"
       exec "echo ---------"
+
+task ci, "Run CI tasks":
+  exec "nimble test"
+  exec "nimble docs"
+  exec "nimble examples"
