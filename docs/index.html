@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Game of life</title>
+  <script src="js/libjs.js"></script>
+
+  <style>
+    table, tr, td {
+      border: solid 1px #000000;
+    }
+    td {
+      width: 20px;
+      height: 20px;
+    }
+    .dead {
+      background-color: lightgrey;
+    }
+    .live {
+      background-color: lightgreen;
+    }
+    
+  </style>
+
+  <script>
+    let board = [];
+
+    function initialize() {
+      updateGameBoard();
+    }
+
+    function updateGameBoard() {
+      let row = document.getElementById("rowInput").value;
+      let col = document.getElementById("colInput").value;
+      updateBoard(row, col)
+      updateGameBoardSize()
+    }
+
+    function updateBoard(row, col) {
+      board = [];
+      for (let y = 0; y < row; y++) {
+        let row = [];
+        for (let x = 0; x < col; x++) {
+          let col = 0x00;
+          row.push(col);
+        }
+        board.push(row);
+      }
+    }
+
+    function updateGameBoardSize() {
+      let table = document.getElementById("gameBoardTable");
+      // テーブル内の小要素をすべて削除
+      while (table.firstChild) {
+        table.removeChild(table.firstChild);
+      }
+      // 行列分セルを生成して追加
+      for (let y = 0; y < board.length; y++) {
+        let row = document.createElement("tr");
+        let boardRow = board[y];
+        for (let x = 0; x < boardRow.length; x++) {
+          let col = document.createElement("td");
+          col.id = x + "_" + y;
+          let colValue = boardRow[x];
+          col.innerHTML = colValue;
+          col.className = colValue == 0x00 ? "dead" : "live";
+          col.onclick = function() {
+            let rowcol = this.id.split("_");
+            let col = parseInt(rowcol[0]);
+            let row = parseInt(rowcol[1]);
+            let v = board[row][col];
+            v = v ^ 0x01;
+            board[row][col] = v;
+            updateGameBoardSize();
+          }
+          row.appendChild(col);
+        }
+        table.appendChild(row);
+      }
+    }
+
+    function startGame() {
+      var f = function() {
+        board = nextStep(board);
+        updateGameBoardSize();
+        let sleep = document.getElementById("sleepInput").value;
+        setTimeout(f, sleep);
+      }
+      f();
+    }
+
+    window.onload = initialize;
+  </script>
+</head>
+
+<body>
+  <div>
+    <h1>Game of Life</h1>
+    <hr>
+  </div>
+
+  <div>
+    <label for="rowInput">Row:
+      <input type="number" id="rowInput" value="20" onchange="updateGameBoard();">
+    </label>
+    <br>
+    <label for="colInput">Column:
+      <input type="number" id="colInput" value="50" onchange="updateGameBoard();">
+    </label>
+    <br>
+    <label for="sleepInput">Sleep time (ms):
+      <input type="number" id="sleepInput" value="500">
+    </label>
+    <br>
+    <input type="button" value="Game starts" onclick="startGame();">
+    <hr>
+  </div>
+
+  <div>
+    <table id="gameBoardTable">
+    </table>
+  </div>
+</body>
+
+</html>

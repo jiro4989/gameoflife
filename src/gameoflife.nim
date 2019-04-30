@@ -143,25 +143,26 @@ proc nextStep*(board: var Board) =
   # 結果をboardに上書き
   board = newBoard
 
-proc print*(board: Board) =
-  ## Print board to stdout.
-  runnableExamples:
-    var board: Board = @[
-      @[dead, dead, dead, dead, dead],
-      @[dead, dead, dead, dead, dead],
-      @[dead, live, live, live, dead],
-      @[dead, dead, dead, dead, dead],
-      @[dead, dead, dead, dead, dead],
-    ]
-    board.print
-    ## Output:
-    ## |0|0|0|0|0|
-    ## |0|0|0|0|0|
-    ## |0|1|1|1|0|
-    ## |0|0|0|0|0|
-    ## |0|0|0|0|0|
-  for row in board:
-    var s = "|"
-    for c in row:
-      s.add $c & "|"
-    echo s
+when not defined(js):
+  proc print*(board: Board) =
+    ## Print board to stdout.
+    runnableExamples:
+      var board: Board = @[
+        @[dead, dead, dead, dead, dead],
+        @[dead, dead, dead, dead, dead],
+        @[dead, live, live, live, dead],
+        @[dead, dead, dead, dead, dead],
+        @[dead, dead, dead, dead, dead],
+      ]
+      board.print
+      ## Output:
+      ## |0|0|0|0|0|
+      ## |0|0|0|0|0|
+      ## |0|1|1|1|0|
+      ## |0|0|0|0|0|
+      ## |0|0|0|0|0|
+    for row in board:
+      var s = "|"
+      for c in row:
+        s.add $c & "|"
+      echo s
