@@ -947,7 +947,7 @@ function next_step_38221(board_38224, board_38224_Idx) {
 function nextStep(b_39031) {
 	var result_39032 = null;
 
-	var F={procname:"libjs.nextStep",prev:framePtr,filename:"libjs.nim",line:0};
+	var F={procname:"gameoflife_js.nextStep",prev:framePtr,filename:"gameoflife_js.nim",line:0};
 	framePtr = F;
 	BeforeRet: do {
 		F.line = 5;
