@@ -9,20 +9,57 @@
   <script src="js/gameoflife_js.js"></script>
 
   <style>
-    table, tr, td {
-      border: solid 1px #000000;
+    .button {
+      background-color: #333;
+      border: 2px solid #333;
+      color: #fff;
+      line-height: 50px;
+      transition: all 300ms 0s ease;
     }
-    td {
-      width: 20px;
-      height: 20px;
+
+    .button:hover {
+      background-color: #fff;
+      border-color: #59b1eb;
+      color: #59b1eb;
+      transition: all 300ms 0s ease;
     }
-    .dead {
-      background-color: lightgrey;
+
+    #gameBoardTable {
+      width: 100%;
+      border-collapse: collapse;
     }
+
+    #gameBoardTable td:hover {
+      background: #49c5f0;
+      transition: all 200ms 0s ease;
+    }
+
     .live {
-      background-color: lightgreen;
+      background: #49c5f0;
     }
-    
+
+    .dead {
+      background: #d0d0d0;
+    }
+
+    #gameBoardTable th,
+    #gameBoardTable td {
+      color: white;
+      border: solid 1px white;
+      text-align: center;
+      padding: 10px 0;
+      transition: all 200ms 0s ease;
+    }
+
+    input[type="number"] {
+      padding: 0.8em;
+      outline: none;
+      border: 1px solid #DDD;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      font-size: 16px;
+    }
   </style>
 
   <script>
@@ -67,7 +104,7 @@
           let colValue = boardRow[x];
           col.innerHTML = colValue;
           col.className = colValue == 0x00 ? "dead" : "live";
-          col.onclick = function() {
+          col.onclick = function () {
             let rowcol = this.id.split("_");
             let col = parseInt(rowcol[0]);
             let row = parseInt(rowcol[1]);
@@ -83,7 +120,7 @@
     }
 
     function startGame() {
-      var f = function() {
+      var f = function () {
         board = nextStep(board);
         updateGameBoardSize();
         let sleep = document.getElementById("sleepInput").value;
@@ -103,19 +140,35 @@
   </div>
 
   <div>
-    <label for="rowInput">Row:
-      <input type="number" id="rowInput" value="20" onchange="updateGameBoard();">
-    </label>
-    <br>
-    <label for="colInput">Column:
-      <input type="number" id="colInput" value="50" onchange="updateGameBoard();">
-    </label>
-    <br>
-    <label for="sleepInput">Sleep time (ms):
-      <input type="number" id="sleepInput" value="500">
-    </label>
-    <br>
-    <input type="button" value="Game starts" onclick="startGame();">
+    <table id="inputTable">
+      <tbody>
+        <tr>
+          <td>
+            Row
+          </td>
+          <td>
+            <input type="number" id="rowInput" value="20" onchange="updateGameBoard();">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Column
+          </td>
+          <td>
+            <input type="number" id="colInput" value="50" onchange="updateGameBoard();">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Sleep time (ms)
+          </td>
+          <td>
+            <input type="number" id="sleepInput" value="500">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <input class="button" type="button" value="Game starts" onclick="startGame();">
     <hr>
   </div>
 
