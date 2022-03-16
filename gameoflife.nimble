@@ -1,6 +1,6 @@
 # Package
 
-version       = "1.1.1"
+version       = "1.2.0"
 author        = "jiro4989"
 description   = "gameoflife is library for Game of Life."
 license       = "MIT"
