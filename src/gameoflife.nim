@@ -27,7 +27,7 @@
 ## See also:
 ## * `Conway's Game of Life <https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life>`_
 
-from sequtils import filterIt
+from std/sequtils import filterIt
 
 type
   Board* = seq[seq[uint8]]
