@@ -76,8 +76,8 @@ proc isGeneration*(self: uint8, livingCellCount: int): bool =
   if self != live:
     return false
   result = case livingCellCount
-           of 2, 3: true
-           else: false
+    of 2, 3: true
+    else: false
 
 proc isUnderpopulation*(self: uint8, livingCellCount: int): bool =
   ## Returns cell is underpopulation.
@@ -123,7 +123,7 @@ proc nextStep*(board: var Board) =
   for y, row in board:
     var newRow: seq[uint8]
     for x, cell in row:
-      let c = board.getNeighbourCells(x=x, y=y).filterIt(it == live).len
+      let c = board.getNeighbourCells(x = x, y = y).filterIt(it == live).len
       if cell == dead:
         if cell.isReproduction(c):
           newRow.add live
