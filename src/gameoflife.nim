@@ -166,3 +166,90 @@ when not defined(js):
       for c in row:
         s.add $c & "|"
       echo s
+
+  when isMainModule:
+    import std/os
+    import std/parseopt
+    from std/terminal import eraseScreen, cursorUp
+    from std/strutils import split, parseUInt
+    from std/sequtils import mapIt
+
+    type
+      Options = ref object
+        args: seq[string]
+        useHelp: bool
+
+    const helpMessage = """
+gameoflife runs game of life on terminal.
+
+Usage:
+    gameoflife <FILE>
+    gameoflife [-h | --help]
+
+Options:
+    -h, --help    print help message
+
+File format:
+  FILE contains only 0 or 1.
+  Glider example is:
+
+    00000000000000000000000000000000000000
+    00000000000000000000000001000000000000
+    00000000000000000000000101000000000000
+    00000000000001100000011000000000000110
+    00000000000010001000011000000000000110
+    01100000000100000100011000000000000000
+    01100000000100010110000101000000000000
+    00000000000100000100000001000000000000
+    00000000000010001000000000000000000000
+    00000000000001100000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+    00000000000000000000000000000000000000
+"""
+
+    proc getCmdOpts(params: seq[string]): Options =
+      ## コマンドライン引数を解析して返す。
+      ## helpとversionが見つかったらテキストを標準出力して早期リターンする。
+      var optParser = initOptParser(params)
+      new result
+
+      for kind, key, val in optParser.getopt():
+        case kind
+        of cmdArgument:
+          result.args.add(key)
+        of cmdLongOption, cmdShortOption:
+          case key
+          of "help", "h":
+            result.useHelp = true
+            return
+        of cmdEnd:
+          assert false # cannot happen
+
+    let opt = getCmdOpts(commandLineParams())
+    if opt.useHelp:
+      echo helpMessage
+      quit 0
+
+    if opt.args.len < 1:
+      echo helpMessage
+      quit 1
+
+    let data = opt.args[0].readFile
+    var board = data.split("\n").mapIt(it.mapIt(it.`$`.parseUInt.uint8)).Board
+
+    var steps = 1
+    eraseScreen()
+    while true:
+      echo "Press Ctrl-C to stop this program"
+      echo "Step count: " & $steps
+      board.nextStep()
+      board.print()
+      cursorUp(board.len+2)
+      inc steps
+      sleep(200)
