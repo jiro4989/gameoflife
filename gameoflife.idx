@@ -1,0 +1,11 @@
+Board	gameoflife.html#Board	gameoflife: Board	
+dead	gameoflife.html#dead	gameoflife: dead	
+live	gameoflife.html#live	gameoflife: live	
+getNeighbourCells	gameoflife.html#getNeighbourCells,Board,int,int	gameoflife: getNeighbourCells(board: Board; x, y: int): seq[uint8]	
+isReproduction	gameoflife.html#isReproduction,uint8,int	gameoflife: isReproduction(self: uint8; livingCellCount: int): bool	
+isGeneration	gameoflife.html#isGeneration,uint8,int	gameoflife: isGeneration(self: uint8; livingCellCount: int): bool	
+isUnderpopulation	gameoflife.html#isUnderpopulation,uint8,int	gameoflife: isUnderpopulation(self: uint8; livingCellCount: int): bool	
+isOverpopulation	gameoflife.html#isOverpopulation,uint8,int	gameoflife: isOverpopulation(self: uint8; livingCellCount: int): bool	
+nextStep	gameoflife.html#nextStep,Board	gameoflife: nextStep(board: var Board)	
+print	gameoflife.html#print,Board	gameoflife: print(board: Board)	
+Basic usage	gameoflife.html#basic-usage	 Basic usage	
