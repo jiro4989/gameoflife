@@ -10,7 +10,7 @@ bin           = @["gameoflife"]
 
 # Dependencies
 
-requires "nim >= 0.19.4"
+requires "nim >= 1.0.0"
 
 task docs, "Generate document":
   exec "nimble doc src/gameoflife.nim -o:docs/gameoflife.html"
