@@ -236,11 +236,10 @@ File format:
       echo helpMessage
       quit 0
 
-    if opt.args.len < 1:
-      echo helpMessage
-      quit 1
+    let data =
+      if opt.args.len < 1: stdin.readAll
+      else: opt.args[0].readFile
 
-    let data = opt.args[0].readFile
     var board = data.split("\n").mapIt(it.mapIt(it.`$`.parseUInt.uint8)).Board
 
     var steps = 1
