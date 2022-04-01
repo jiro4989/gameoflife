@@ -51,6 +51,26 @@ gameoflife examples/read_file/in/glider.txt
 00000000000000000000000000000000000000
 ----
 
+==== Play gameoflife with `maze`
+
+Generate random data with https://github.com/jiro4989/maze[maze].
+
+Setup:
+
+[source,bash]
+----
+nimble install -Y maze
+----
+
+And run:
+
+[source,bash]
+----
+maze -r:1 -w:0 -W:20 -H:20 | gameoflife
+----
+
+image:docs/maze.gif["Maze"]
+
 === Library
 
 ==== Blinker example
