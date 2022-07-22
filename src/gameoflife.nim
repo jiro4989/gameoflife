@@ -247,8 +247,15 @@ File format:
     while true:
       echo "Press Ctrl-C to stop this program"
       echo "Step count: " & $steps
+
+      var beforeBoard = board
       board.nextStep()
       board.print()
+      if beforeBoard == board:
+        echo ""
+        echo "[INFO] Gameoflife has stopped because of cell states were same in 2 consecutive steps"
+        echo "[INFO] See you"
+        break
       cursorUp(board.len+2)
       inc steps
       sleep(200)
